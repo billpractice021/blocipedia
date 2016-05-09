@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
+
   devise_for :users
 
   resources :users, only: [:show]
+
+  resources :wikis
+  
+  authenticated :user do
+  	root "wikis#index", as: :authenticated_root
+  end
   
   get 'about', to: 'welcome#about'
 

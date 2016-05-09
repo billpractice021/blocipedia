@@ -1,4 +1,5 @@
 User.destroy_all
+Wiki.destroy_all
 
 5.times do 
   User.create(
@@ -8,3 +9,14 @@ User.destroy_all
 end
 
 User.create(email: 'test@user.com', password: 'password')
+
+users = User.all 
+
+50.times do 
+  Wiki.create(
+  	title: Faker::Lorem.sentence,
+    body: Faker::Lorem.sentence,
+    user: users.sample
+  	)
+end
+

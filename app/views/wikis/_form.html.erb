@@ -1,0 +1,11 @@
+<%= form_for @wiki do |w| %>
+  <div class="form-group">
+  <%= w.label :title %>
+  <%= w.text_field :title %>
+  </div>
+  <div class="form-group">
+  <%= w.label :body %>
+  <%= w.text_area :body %>
+  </div>
+  <%= w.submit "save" %>
+<% end %>
