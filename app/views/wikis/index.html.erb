@@ -1,5 +1,7 @@
 <h1>All Current User's Wikis</h1>
-<%= link_to "New Wiki", new_wiki_path, class: "btn btn-inverse" %>
+<% if policy(Wiki.new).create? %>
+  <%= link_to "New Wiki", new_wiki_path, class: "btn btn-inverse" %>
+<% end %>
 <% @wikis.each do |wiki| %>
   <div class="media">
     <div class="media-body">
