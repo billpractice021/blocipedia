@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show]
 
+  resources :charges, only: [:new, :create]
+
   resources :wikis
   
   authenticated :user do

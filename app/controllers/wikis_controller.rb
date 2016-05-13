@@ -1,6 +1,7 @@
 class WikisController < ApplicationController
   def index
   	@wikis = current_user.wikis
+    #@wikis = Wiki.all
   end
 
   def show
@@ -9,6 +10,7 @@ class WikisController < ApplicationController
 
   def new
   	@wiki = Wiki.new
+    authorize @wiki
   end
 
   def create
@@ -24,10 +26,12 @@ class WikisController < ApplicationController
 
   def edit
   	@wiki = Wiki.find(params[:id])
+    authorize @wiki
   end
 
   def update
   	@wiki = Wiki.find(params[:id])
+    authorize @wiki
 
   	if @wiki.update(wiki_params)
       flash[:notice] = "Wiki was successfully updated"
