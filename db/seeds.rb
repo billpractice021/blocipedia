@@ -12,6 +12,8 @@ User.create(email: 'test@user.com', password: 'password')
 
 users = User.all 
 
+admin = User.create(email: 'admin@user.com', password: 'password', role: 'admin')
+
 50.times do 
   Wiki.create(
   	title: Faker::Lorem.sentence,
