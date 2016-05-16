@@ -7,5 +7,11 @@
   <%= w.label :body %>
   <%= w.text_area :body %>
   </div>
+  <% if current_user.premium? %>
+    <div class="form-group">
+      <%= w.check_box :private %>
+      <%= w.label :private %>
+    </div>
+  <% end %>
   <%= w.submit "save" %>
 <% end %>
