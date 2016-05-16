@@ -10,6 +10,8 @@ end
 
 User.create(email: 'test@user.com', password: 'password')
 
+admin = User.create(email: 'test@user.com', password: 'password', role: 'admin')
+
 users = User.all 
 
 50.times do 
@@ -19,4 +21,5 @@ users = User.all
     user: users.sample
   	)
 end
+
 

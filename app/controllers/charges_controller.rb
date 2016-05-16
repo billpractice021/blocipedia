@@ -19,9 +19,13 @@ class ChargesController < ApplicationController
       description: "BigMoney Membership - #{current_user.email}",
       currency: 'usd'
     )
+
+    if charge.paid == true
+      current_user.premium!
+      flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
+      redirect_to user_path(current_user) 
+    end
  
-    flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
-    redirect_to user_path(current_user) 
  
     rescue Stripe::CardError => e
       flash[:alert] = e.message

@@ -1,11 +1,17 @@
 <%= form_for @wiki do |w| %>
   <div class="form-group">
-  <%= w.label :title %>
-  <%= w.text_field :title %>
+    <%= w.label :title %>
+    <%= w.text_field :title %>
   </div>
   <div class="form-group">
-  <%= w.label :body %>
-  <%= w.text_area :body %>
+    <%= w.label :body %>
+    <%= w.text_area :body %>
   </div>
+  <% if current_user.premium? %>
+    <div class="form-group">
+      <%= w.checkbox :private %>
+      <%= w.label :private %>
+    </div>
+  <% end %>
   <%= w.submit "save" %>
 <% end %>
