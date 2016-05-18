@@ -33,18 +33,16 @@ class ChargesController < ApplicationController
 
     rescue Stripe::CardError => e
       flash[:alert] = e.message
-      redirect_to new_charge_path
+      redirect_to user_path(current_user)
   end
 
   def destroy
-    last_charge = current_user.charges.where(refunded: false).first
-    refund = Stripe::Refund.create(
-      charge: last_charge.stripe_charge_id
-    )
+    charge = Charge.find(params[:id])
+    stripe_charge = Stripe::Charge.retrieve(charge.stripe_charge_id)
 
-    if refund.status == 'succeeded'
+    if refund = stripe_charge.refunds.create(amount: 15_00)
       current_user.standard!
-      last_charge.update(refunded = true)
+      charge.update(refunded: true)
       current_user.wikis.where(private: true).each do |wiki|
         wiki.update(private: false)
       end
