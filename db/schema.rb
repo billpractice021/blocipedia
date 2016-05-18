@@ -11,8 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+ActiveRecord::Schema.define(version: 20160518155513) do
 
-ActiveRecord::Schema.define(version: 20160513175832) do
+  create_table "charges", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "stripe_charge_id"
+    t.boolean  "refunded",         default: false
+    t.integer  "amount"
+    t.boolean  "paid",             default: true
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "charges", ["user_id"], name: "index_charges_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -28,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160513175832) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "role",                   default: 0
+    t.string   "stripe_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
