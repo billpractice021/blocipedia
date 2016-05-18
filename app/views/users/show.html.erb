@@ -1,3 +1,14 @@
 <h1>User Profile</h1>
 <p>Email: <%= @user.email %></p>
 <%= link_to 'Home', root_path %> 
+
+<% if @user == current_user && @user.premium? %>
+  <h4>Downgrade to standard user</h4>
+  <%= link_to "Downgrade account", charge_path(@user.charges.last), method: :delete, class: 'btn btn-danger' %>
+<% elsif @user == current_user && @user.standard? %>
+  <h4>Upgrade Premium Account</h4>
+  <%= form_tag charges_path do %>
+  <script class='stripe-button' src="https://checkout.stripe.com/checkout.js" data-key="<%= @stripe_btn_data[:key] %>" data-amount=<%= @stripe_btn_data[:amount] %> data-description="<%= @stripe_btn_data[:description] %>" ></script>
+  <% end %>
+<% end %>
+

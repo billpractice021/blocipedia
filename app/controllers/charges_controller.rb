@@ -1,12 +1,4 @@
 class ChargesController < ApplicationController
-  def new
-    @stripe_btn_data = {
-      key: "#{ Rails.configuration.stripe[:publishable_key] }",
-      description: "BigMoney Membership - #{current_user.email}",
-      amount: 15_00
-    }
-  end
-
   def create
     customer = Stripe::Customer.create(
       email: current_user.email,
@@ -33,26 +25,24 @@ class ChargesController < ApplicationController
 
     rescue Stripe::CardError => e
       flash[:alert] = e.message
-      redirect_to new_charge_path
+      redirect_to user_path(current_user)
   end
 
   def destroy
-    last_charge = current_user.charges.where(refunded: false).first
-    refund = Stripe::Refund.create(
-      charge: last_charge.stripe_charge_id
-    )
+    charge = Charge.find(params[:id])
+    stripe_charge = Stripe::Charge.retrieve(charge.stripe_charge_id)
 
-    if refund.status == 'succeeded'
+    if refund = stripe_charge.refunds.create(amount: 15_00)
       current_user.standard!
-      last_charge.update(refunded = true)
+      charge.update(refunded: true)
       current_user.wikis.where(private: true).each do |wiki|
         wiki.update(private: false)
-      end
+    end
       flash[:notice] = "You are now a lowly standard user"
     else
       flash[:alert] = 'Downgrade failed'
     end
 
-    redirect_to user_path(current_user) 
+    redirect_to user_path(current_user)
   end
 end

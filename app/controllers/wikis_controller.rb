@@ -42,7 +42,6 @@ class WikisController < ApplicationController
     end
   end
 
-
   def destroy
   	@wiki = Wiki.find(params[:id])
 

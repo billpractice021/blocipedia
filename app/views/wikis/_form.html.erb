@@ -7,7 +7,7 @@
   <%= w.label :body %>
   <%= w.text_area :body %>
   </div>
-  <% if current_user.premium? %>
+  <% if current_user.premium? || current_user.admin? %>
     <div class="form-group">
       <%= w.check_box :private %>
       <%= w.label :private %>
