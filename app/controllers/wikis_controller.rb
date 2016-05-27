@@ -1,11 +1,11 @@
 class WikisController < ApplicationController
   def index
-  	@wikis = current_user.wikis
-    #@wikis = Wiki.all
+    @wikis = policy_scope(Wiki)
   end
 
   def show
     @wiki = Wiki.find(params[:id])
+    @users = User.where.not(id: @wiki.user.id)
   end
 
   def new

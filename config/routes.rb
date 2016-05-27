@@ -6,7 +6,11 @@ Rails.application.routes.draw do
 
   resources :charges, only: [:create, :destroy]
 
-  resources :wikis
+  
+  resources :wikis do 
+    resources :collaborations 
+  end
+
   
   authenticated :user do
   	root "wikis#index", as: :authenticated_root
