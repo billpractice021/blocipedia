@@ -38,6 +38,8 @@ gem 'devise'
 gem 'bootswatch-rails'
 gem 'bootstrap-sass'
 # Use Capistrano for deployment
+# For friendly url
+gem 'friendly_id', '~> 5.1.0'
 # gem 'capistrano-rails', group: :development
 group :production do
   gem 'pg'
