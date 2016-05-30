@@ -14,3 +14,15 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+$(document).ready(function() {
+  var converter = new showdown.Converter();
+
+  $('#wiki_body').on('keyup', function(event) {
+    var mdown = $('#wiki_body').val();
+    var html = converter.makeHtml(mdown);
+    $('#wiki-preview').html(html);
+  });
+});
+
